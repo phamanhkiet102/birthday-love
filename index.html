@@ -1,0 +1,548 @@
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎁 Một món quà dành cho em</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#120d20,#35172e,#17142e);
+    color:white;
+}
+
+/* SAO */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+        radial-gradient(#fff 1px,transparent 1px),
+        radial-gradient(#fff 1px,transparent 1px);
+    background-size:70px 70px,110px 110px;
+    background-position:0 0,30px 40px;
+    opacity:.35;
+    pointer-events:none;
+}
+
+/* MÀN HÌNH */
+.screen{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+    transition:1s;
+}
+
+.box{
+    width:min(430px,100%);
+    padding:40px 28px;
+    border-radius:28px;
+    background:#ffffff12;
+    border:1px solid #ffffff25;
+    backdrop-filter:blur(15px);
+    box-shadow:0 20px 70px #0007;
+}
+
+.emoji{
+    font-size:65px;
+    margin-bottom:15px;
+}
+
+h1{
+    font-size:32px;
+    margin-bottom:15px;
+    color:#ff9cba;
+}
+
+p{
+    line-height:1.7;
+    opacity:.9;
+}
+
+input{
+    width:100%;
+    margin-top:25px;
+    padding:15px 18px;
+    border-radius:30px;
+    border:1px solid #ffffff30;
+    background:#ffffff12;
+    color:white;
+    outline:none;
+    text-align:center;
+    font-size:16px;
+}
+
+input::placeholder{
+    color:#ffffff80;
+}
+
+button{
+    border:0;
+    cursor:pointer;
+}
+
+.open-btn{
+    margin-top:15px;
+    padding:15px 30px;
+    border-radius:30px;
+    background:linear-gradient(135deg,#ff5d91,#ff9ab8);
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    box-shadow:0 10px 30px #ff5d9144;
+    transition:.3s;
+}
+
+.open-btn:hover{
+    transform:translateY(-3px) scale(1.03);
+}
+
+.error{
+    color:#ff8ba9;
+    margin-top:15px;
+    display:none;
+}
+
+/* LOADING */
+.loading{
+    display:none;
+}
+
+.loading-heart{
+    font-size:70px;
+    animation:pulse 1s infinite;
+}
+
+.loading-text{
+    margin-top:20px;
+    font-size:18px;
+}
+
+@keyframes pulse{
+    50%{
+        transform:scale(1.25);
+    }
+}
+
+/* QUÀ */
+.gift-screen{
+    display:none;
+}
+
+.gift{
+    background:none;
+    color:white;
+    animation:float 2s ease-in-out infinite;
+}
+
+.gift-icon{
+    font-size:150px;
+    display:block;
+}
+
+.gift-text{
+    font-size:18px;
+    margin-top:10px;
+}
+
+@keyframes float{
+    50%{
+        transform:translateY(-15px);
+    }
+}
+
+/* TRANG CUỐI */
+.final{
+    display:none;
+    overflow:auto;
+    padding:50px 20px;
+}
+
+.final-box{
+    max-width:700px;
+    margin:auto;
+    text-align:center;
+}
+
+.final h1{
+    font-size:45px;
+}
+
+.message{
+    margin:25px 0;
+    padding:30px;
+    border-radius:25px;
+    background:#ffffff10;
+    border:1px solid #ffffff20;
+    line-height:2;
+    font-size:17px;
+}
+
+.photo-box{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:25px;
+}
+
+.photo{
+    aspect-ratio:1;
+    border-radius:18px;
+    background:#ffffff10;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:35px;
+}
+
+.heart{
+    position:fixed;
+    bottom:-40px;
+    pointer-events:none;
+    animation:heartFly 5s linear forwards;
+    z-index:99;
+}
+
+@keyframes heartFly{
+    to{
+        transform:translateY(-110vh) rotate(360deg);
+        opacity:0;
+    }
+}
+
+@media(max-width:500px){
+    h1{
+        font-size:27px;
+    }
+
+    .gift-icon{
+        font-size:120px;
+    }
+
+    .photo-box{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= MÀN HÌNH NHẬP ================= -->
+
+<div class="screen" id="loginScreen">
+
+    <div class="box">
+
+        <div class="emoji">🎁</div>
+
+        <h1>Một món quà dành cho em</h1>
+
+        <p>
+            Anh có chuẩn bị một thứ nhỏ nhỏ cho em.
+            <br>
+            Nhưng muốn mở được thì phải trả lời đúng nhé ❤️
+        </p>
+
+        <input
+            id="answer"
+            type="text"
+            placeholder="Nhập tên của em..."
+        >
+
+        <button class="open-btn" onclick="checkAnswer()">
+            💗 MỞ QUÀ
+        </button>
+
+        <div class="error" id="error">
+            Hmm... hình như chưa đúng rồi 🥺
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= LOADING ================= -->
+
+<div class="screen loading" id="loadingScreen">
+
+    <div>
+
+        <div class="loading-heart">
+            ❤️
+        </div>
+
+        <div class="loading-text">
+            Đang chuẩn bị món quà cho em...
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= HỘP QUÀ ================= -->
+
+<div class="screen gift-screen" id="giftScreen">
+
+    <div>
+
+        <button class="gift" onclick="openGift()">
+
+            <span class="gift-icon">
+                🎁
+            </span>
+
+            <span class="gift-text">
+                Bấm vào đây để mở quà ❤️
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= TRANG CUỐI ================= -->
+
+<div class="screen final" id="finalScreen">
+
+    <div class="final-box">
+
+        <div style="font-size:70px">
+            ❤️
+        </div>
+
+        <h1>
+            Happy Birthday, em yêu! 🎂
+        </h1>
+
+        <div class="message">
+
+            Gửi em, người anh thương ❤️
+
+            <br><br>
+
+            Cảm ơn em vì đã xuất hiện trong cuộc đời anh.
+
+            <br><br>
+
+            Cảm ơn em vì những khoảnh khắc vui,
+            những lúc buồn và cả những điều rất nhỏ
+            mà chúng ta đã cùng nhau trải qua.
+
+            <br><br>
+
+            Anh không biết tương lai sẽ như thế nào,
+            nhưng anh mong rằng chúng ta sẽ có thêm
+            thật nhiều kỷ niệm đẹp cùng nhau.
+
+            <br><br>
+
+            Chúc em tuổi mới thật vui vẻ,
+            luôn mạnh khỏe, luôn hạnh phúc
+            và đạt được những điều em mong muốn.
+
+            <br><br>
+
+            <b>
+                Anh thương em rất nhiều ❤️
+            </b>
+
+        </div>
+
+
+        <!-- ẢNH -->
+
+        <h2>
+            📸 Những kỷ niệm của chúng ta
+        </h2>
+
+        <div class="photo-box">
+
+            <div class="photo">📷</div>
+            <div class="photo">📷</div>
+            <div class="photo">📷</div>
+            <div class="photo">📷</div>
+            <div class="photo">📷</div>
+            <div class="photo">📷</div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =================
+   CÀI TÊN NGƯỜI YÊU
+   ================= */
+
+const correctName = "Trang";
+
+/*
+Đổi "em" thành tên người yêu.
+
+Ví dụ:
+
+const correctName = "ngọc";
+
+Không phân biệt chữ hoa / thường.
+*/
+
+
+/* =================
+   KIỂM TRA
+   ================= */
+
+function checkAnswer(){
+
+    const input =
+        document
+        .getElementById("answer")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const error =
+        document.getElementById("error");
+
+    if(input === correctName){
+
+        error.style.display="none";
+
+        document
+        .getElementById("loginScreen")
+        .style.display="none";
+
+        document
+        .getElementById("loadingScreen")
+        .style.display="flex";
+
+        setTimeout(()=>{
+
+            document
+            .getElementById("loadingScreen")
+            .style.display="none";
+
+            document
+            .getElementById("giftScreen")
+            .style.display="flex";
+
+            createHearts(15);
+
+        },3000);
+
+    }else{
+
+        error.style.display="block";
+
+    }
+
+}
+
+
+/* =================
+   MỞ HỘP QUÀ
+   ================= */
+
+function openGift(){
+
+    document
+    .getElementById("giftScreen")
+    .style.display="none";
+
+    document
+    .getElementById("finalScreen")
+    .style.display="block";
+
+    createHearts(40);
+
+}
+
+
+/* =================
+   TIM BAY
+   ================= */
+
+function createHearts(number){
+
+    for(let i=0;i<number;i++){
+
+        const heart =
+        document.createElement("div");
+
+        heart.className="heart";
+
+        const hearts=[
+            "❤️",
+            "💕",
+            "💗",
+            "💖",
+            "💘"
+        ];
+
+        heart.innerText =
+        hearts[
+            Math.floor(
+                Math.random()*hearts.length
+            )
+        ];
+
+        heart.style.left =
+        Math.random()*100+"vw";
+
+        heart.style.fontSize =
+        (18+Math.random()*25)+"px";
+
+        heart.style.animationDuration =
+        (3+Math.random()*3)+"s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{
+            heart.remove();
+        },6000);
+
+    }
+
+}
+
+
+/* =================
+   ENTER ĐỂ MỞ
+   ================= */
+
+document
+.getElementById("answer")
+.addEventListener("keydown",function(e){
+
+    if(e.key==="Enter"){
+        checkAnswer();
+    }
+
+});
+
+</script>
+
+</body>
+</html>
+```
