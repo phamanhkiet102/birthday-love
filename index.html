@@ -268,7 +268,8 @@ button{
 },
 .heart-fly {
     position: fixed;
-    bottom: -50px;
+    left: 0;
+    bottom: -60px;
     pointer-events: none;
     z-index: 99999;
     user-select: none;
@@ -277,7 +278,7 @@ button{
 
 @keyframes heartFlyUp {
     0% {
-        transform: translateY(0) scale(.7) rotate(0deg);
+        transform: translateY(0) scale(0.5) rotate(0deg);
         opacity: 0;
     }
 
@@ -286,11 +287,11 @@ button{
     }
 
     50% {
-        opacity: .9;
+        opacity: 0.9;
     }
 
     100% {
-        transform: translateY(-115vh) scale(1.2) rotate(25deg);
+        transform: translateY(-115vh) scale(1.2) rotate(360deg);
         opacity: 0;
     }
 }
@@ -643,24 +644,31 @@ function createFloatingHeart() {
         "💞"
     ];
 
-    heart.innerText =
+    heart.textContent =
         hearts[Math.floor(Math.random() * hearts.length)];
 
+    // Xuất hiện ở BẤT KỲ vị trí nào trên toàn màn hình
     heart.style.left =
         Math.random() * 100 + "vw";
 
+    // Kích thước ngẫu nhiên
     heart.style.fontSize =
-        (15 + Math.random() * 25) + "px";
+        (14 + Math.random() * 35) + "px";
 
+    // Tốc độ ngẫu nhiên
     heart.style.animationDuration =
-        (4 + Math.random() * 4) + "s";
+        (4 + Math.random() * 5) + "s";
 
     document.body.appendChild(heart);
 
     setTimeout(() => {
         heart.remove();
-    }, 8000);
+    }, 10000);
 }
+
+
+// ❤️ TIM BAY MÃI MÃI
+setInterval(createFloatingHeart, 180);
 function createFloatingHeart() {
     const heart = document.createElement("div");
 
@@ -685,8 +693,6 @@ function createFloatingHeart() {
         heart.remove();
     }, 8000);
 }
-
-setInterval(createFloatingHeart, 300);
 
 
 /* Tim bay liên tục */
